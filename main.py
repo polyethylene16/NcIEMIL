@@ -4,8 +4,7 @@ import os
 import argparse
 import numpy as np
 import itertools
-from scnet import CISMIL
-from model import SCNet
+from model import NcIEMIL
 # from models.ilra import ILRA
 # from models.abmil import AbMIL
 # from models.dsmil import DSMIL
@@ -170,7 +169,7 @@ def plot_confusion_matrix(cmtx, num_classes, class_names=None, title='Confusion 
 
 def parse():
     parser = argparse.ArgumentParser('Training for MIL')
-    parser.add_argument('--epochs', type=int, default=300)
+    parser.add_argument('--epochs', type=int, default=100)
     # Model parameters
     parser.add_argument('--in_dim', type=int, default=768, 
                         help="The dimension of instance-level representations")
@@ -196,12 +195,12 @@ def parse():
                         help='feature path')
     parser.add_argument('--k', type=int, default=128)
     parser.add_argument('--embed_dim', type=int, default=1024)
-    parser.add_argument('--flag', type=str, default='stomoch_1024_Si_256_2')
-    parser.add_argument('--fold', type=str, default='/data_sda/sqh/MIL_v2/fold/fold.csv')
+    parser.add_argument('--flag', type=str, default='stomoch')
+    parser.add_argument('--fold', type=str, default='fold.csv')
     parser.add_argument('--device', type=str, default='cuda:0', help='device to use for training / testing')
     parser.add_argument('--n_workers', type=int, default=4)
     parser.add_argument('--batch_size', type=int, default=4)
-    parser.add_argument('--seed', default=256, type=int)
+    parser.add_argument('--seed', default=3407, type=int)
     parser.add_argument('--resume', default='', help='resume from checkpoint')
     parser.add_argument('--n_classes', type=int, default=4)
     parser.add_argument('--start_epoch', default=0, type=int, metavar='N',
@@ -231,7 +230,7 @@ def main(args):
     val_loader = data.DataLoader(val_set, batch_size=args.batch_size, num_workers=args.n_workers, shuffle=False, pin_memory=True)
     test_loader = data.DataLoader(test_set, batch_size=args.batch_size, num_workers=args.n_workers, shuffle=False, pin_memory=True)
 
-    model = CISMIL(in_dim=args.in_dim, in_chans=2 * args.k, n_classes=args.n_classes, attn_drop=args.drop, proj_drop=args.drop, 
+    model = NcIEMIL(in_dim=args.in_dim, in_chans=2 * args.k, n_classes=args.n_classes, attn_drop=args.drop, proj_drop=args.drop, 
                    conv_drop=args.drop, latent_dim=args.embed_dim).to(device)
     # model = SCNet(n_chans=2 * args.k, n_classes=4).to(device)
 
