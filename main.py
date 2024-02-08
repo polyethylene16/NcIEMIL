@@ -4,7 +4,7 @@ import os
 import argparse
 import numpy as np
 import itertools
-from model import NcIEMIL
+from model.model import NcIEMIL
 # from models.ilra import ILRA
 # from models.abmil import AbMIL
 # from models.dsmil import DSMIL
