@@ -4,10 +4,10 @@ import torch.nn.functional as F
 import math
 from timm.models.layers import trunc_normal_
 
-class CISMIL(nn.Module):
+class NcIEMIL(nn.Module):
     def __init__(self, in_dim, in_chans, latent_dim=1024, n_classes=2, num_heads=4, ratio=32,
                  qkv_bias=False, qk_scale=None, attn_drop=0., proj_drop=0., conv_drop=0., mode='cross'):
-        super(CISMIL, self).__init__()
+        super(NcIEMIL, self).__init__()
         assert in_dim % num_heads == 0, f"dim {in_dim} should be divided by num_heads {num_heads}."
 
         self.in_dim = in_dim
